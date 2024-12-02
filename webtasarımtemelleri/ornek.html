@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bağış Kampanyası</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            color: #333;
+            text-align: center;
+        }
+        header {
+            background-color: #4caf50;
+            color: white;
+            padding: 20px 0;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+        }
+        .progress-bar {
+            background-color: #ddd;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 20px 0;
+            height: 30px;
+            width: 100%;
+        }
+        .progress {
+            background-color: #4caf50;
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease-in-out;
+        }
+        .donation-input {
+            margin: 10px 0;
+        }
+        input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bağış Kampanyası: Geleceğe Umut</h1>
+    <p>Hedef: 1000 TL</p>
+</header>
+
+<div class="container">
+    <div class="progress-bar">
+        <div class="progress"></div>
+    </div>
+    <p id="current-amount">Toplam Bağış: 0 TL</p>
+    <div class="donation-input">
+        <input type="number" id="donation" placeholder="Bağış miktarınızı girin">
+    </div>
+    <button onclick="makeDonation()">Bağış Yap</button>
+</div>
+
+<script>
+    let totalDonations = 0; // Başlangıç değeri
+    const targetAmount = 1000; // Bağış hedefi
+
+    function makeDonation() {
+        const donationInput = document.getElementById('donation');
+        const donationAmount = parseInt(donationInput.value);
+
+        if (isNaN(donationAmount) || donationAmount <= 0) {
+            alert("Lütfen geçerli bir bağış miktarı girin.");
+            return;
+        }
+
+        totalDonations += donationAmount; // Toplam bağış miktarını güncelle
+        if (totalDonations > targetAmount) {
+            totalDonations = targetAmount; // Hedefi aşma kontrolü
+        }
+
+        // İlerleme çubuğunu güncelle
+        const progress = document.querySelector('.progress');
+        const progressPercentage = (totalDonations / targetAmount) * 100;
+        progress.style.width = progressPercentage + "%";
+
+        // Toplam bağışı göster
+        document.getElementById('current-amount').innerText = `Toplam Bağış: ${totalDonations} TL`;
+
+        // Bağış tamamlandı mesajı
+        if (totalDonations >= targetAmount) {
+            alert("Tebrikler! Bağış hedefi tamamlandı!");
+        }
+
+        donationInput.value = ""; // Giriş alanını sıfırla
+    }
+</script>
+
+</body>
+</html>
