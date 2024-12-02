@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yaş Hesaplama</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #696996;
+      margin: auto;
+    }
+    .container {
+      color: #000000bb;
+      font-weight: bolder;
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: rgb(206, 148, 148);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    input, button {
+      width: 75%;
+      padding: 10px;
+      margin: 10px auto;  /* Correct the margin */
+      border-radius: 15px;
+      border: 1px solid #ddd;
+      display: block;
+    }
+
+    button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Yaş Hesaplama Uygulaması</h2>
+    <label for="dob">Doğum Tarihinizi Girin:</label>
+    <input type="date" id="dob" required>
+    <button onclick="calculateLifeStats()">Yaşımı Hesapla</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+   function calculateLifeStats() {
+  // Kullanıcıdan doğum tarihini al
+  const dob = document.getElementById("dob").value;
+
+  // Eğer tarih boşsa kullanıcıyı uyar
+  if (!dob) {
+    alert("Lütfen doğum tarihinizi girin.");
+    return;
+  }
+
+  // Doğum tarihini bir Date objesine dönüştür
+  const birthDate = new Date(dob);
+  const today = new Date();
+
+  // Yaş hesaplama: Yıl farkı, ay farkı ve gün farkı
+  let years = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+  const dayDifference = today.getDate() - birthDate.getDate();
+
+  // Eğer doğum günü bu yıl henüz gelmediyse yaşı bir azalt
+  if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+    years--;
+  }
+
+  // Ayları hesapla
+  let months = today.getMonth() - birthDate.getMonth();
+  if (monthDifference < 0) {
+    months += 12; // Eğer ay farkı negatifse, yılı 12 ay ekle
+  }
+
+  // Toplam ay hesaplama (yıllar * 12 + ay farkı)
+  const totalMonths = years * 12 + months;
+
+  // Günleri hesapla (toplam gün sayısını)
+  const timeDifference = today - birthDate;
+  const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // 1 gün = 1000ms * 60s * 60m * 24h
+
+  // Sonuçları ekranda göster
+  document.getElementById("result").innerHTML = `
+    Yaşınız: ${years} yıl, ${months} ay, ${days} gün<br>
+    Toplam Yaşadığınız Ay Sayısı: ${totalMonths} ay<br>
+    Toplam Yaşadığınız Gün Sayısı: ${days} gün
+  `;
+}
+
+
+  </script>
+</body>
+</html>
